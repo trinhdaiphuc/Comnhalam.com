@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index/layout/frame}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+
+        <div layout:fragment="content">
+            <div layout:fragment="breakcrumb">
+
+            </div>
+            <div class="section">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="user-info">
+                                <img th:src="@{${#authentication.principal.img}}">
+                                <h3 th:utext="${#authentication.principal.name}">Username</h3>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div layout:fragment="menuUser">
+
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div layout:fragment="contentUser">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /section -->
+        </div>
+
+    </body>
+</html>

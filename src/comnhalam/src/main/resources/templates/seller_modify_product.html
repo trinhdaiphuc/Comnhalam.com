@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index/layout/frameUser}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Sửa sản phẩm</title>
+    <th:block layout:fragment="headerCss">
+        <link rel="stylesheet" href="/index/css/cropper.min.css">
+    </th:block>
+
+
+</head>
+
+<body>
+<!-- HEADER -->
+
+<div layout:fragment="breakcrumb">
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/}">Trang chủ</a></li>
+                <li class="active">Thêm sản phẩm</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="menuUser">
+    <div id="user-menu" class="list-group">
+        <a href="/user/edit_profile" class="list-group-item list-group-item-action ">Thông tin tài khoản</a>
+        <a href="/user/order_list" class="list-group-item list-group-item-action">Quản lý đơn hàng</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/products"
+           class="list-group-item list-group-item-action">Xem sản phẩm</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/add_product"
+           class="list-group-item list-group-item-action active">Thêm sản phẩm</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/exportReport"
+           class="list-group-item list-group-item-action">Xuất báo cáo</a>
+        <a href="/logout" class="list-group-item list-group-item-action">Đăng xuất</a>
+    </div>
+</div>
+
+<div layout:fragment="contentUser">
+
+    <!-- form -->
+    <div class="alert alert-success alert-dismissible" role="alert" th:if="${message}">
+        <strong>Thành công!</strong> <span th:utext="${message}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!------ Include the above in your HEAD tag ---------->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h4>Sửa sản phẩm</h4>
+            <hr>
+            <form class="form-horizontal" th:action="@{/seller/modifyProduct}" method="post" th:object="${modify_product}"
+                  enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}">
+
+                <fieldset>
+
+                    <!-- Text input-->
+                    <div class="form-group" style="margin-top: 50px">
+                        <label class="col-md-4 control-label" for="product_name">Tên sản phẩm*</label>
+                        <div class="col-md-4">
+                    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                          class="error-form">Danger Label</span>
+                            <input id="product_name" name="product_name" placeholder="" class="form-control input-md" required
+                                   type="text" th:field="*{name}">
+
+                        </div>
+                    </div>
+
+
+                    <!-- Select Basic -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_categorie">Loại sản phẩm*</label>
+                        <div class="col-md-4">
+                            <select multiple th:field="*{tags}" id="product_categorie" name="product_categorie" class="form-control" required>
+                                <option th:each="t : ${tags}" th:value="${t.name}" th:utext="${t.name}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_number">Số lượng*</label>
+                        <div class="col-md-4">
+                            <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="error-form">Danger Label</span>
+                            <input id="product_number" name="product_number" placeholder="" class="form-control input-md"
+                                   required type="number" th:field="*{quantity}">
+
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_price">Giá*</label>
+                        <div class="col-md-4">
+                            <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-form"></span>
+                            <input id="product_price" name="product_price" placeholder="" class="form-control input-md" required
+                                   type="number" th:field="*{price}">
+
+                        </div>
+                    </div>
+
+                    <!-- Textarea -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="product_description">Mô tả sản phẩm</label>
+                        <div class="col-md-4">
+                    <textarea class="form-control" id="product_description" name="product_description"
+                              th:field="*{description}"></textarea>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="img500" th:field="*{img500}">
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Thêm ảnh</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="form-tmp">
+                                        <input type='file' class="custom-file-input" id="imgInp" />
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" id="save" data-dismiss="modal" class="btn btn-danger primary-bg">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="singlebutton"></label>
+                        <div class="col-md-4">
+                            <!--Upload Image Button-->
+                            <button type="button" class="btn btn-danger primary-bg" data-toggle="modal" data-target="#exampleModal">
+                                Thêm ảnh
+                            </button>
+                            <input type="submit" id="singlebutton" name="singlebutton" class="btn btn-danger primary-bg"
+                                   value="Đăng bán"/>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- /form -->
+
+</div>
+
+<div layout:fragment="footerJs">
+    <script src="/index/js/cropper.min.js"></script>
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#form-tmp img').remove();
+                    $('#form-tmp').append(`<img id='show-img' width="700px" src='${e.target.result}'>`);
+                    const image = document.getElementById("show-img");
+                    const cropper = new Cropper(image, {
+                        aspectRatio: 3/2,
+                        cropBoxResizable: false,
+                        ready() {
+                            this.cropper.setDragMode("move");
+                            const data = {
+                                "x": 0,
+                                "y": 0,
+                                "width": 540,
+                                "height": 360,
+                                "rotate": 0,
+                                "scaleX": 1,
+                                "scaleY": 1
+                            };
+                            cropper.setData(data);
+                        },
+                    });
+
+                    const saveBtn = document.querySelector('#save');
+                    saveBtn.addEventListener('click', function(e) {
+                        const canvas500 = cropper.getCroppedCanvas({width: 540, height: 360});
+                        document.querySelector('#img500').setAttribute('value', canvas500.toDataURL());
+                    });
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInp").change(function () {
+            readURL(this);
+        });
+    </script>
+</div>
+
+</body>
+
+</html>

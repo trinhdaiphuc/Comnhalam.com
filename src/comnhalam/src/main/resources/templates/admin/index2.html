@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/frame}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dashboard</title>
+
+    <!-- bootstrap-daterangepicker -->
+    <th:block layout:fragment="headerCss">
+        <link href="/admin/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    </th:block>
+
+</head>
+
+<body class="nav-md">
+
+<!-- page content -->
+<div layout:fragment="content">
+    <div class="row top_tiles">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-users"></i></div>
+                <div class="count" th:utext="${countUsers}">179</div>
+                <h3>Người dùng</h3>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-male"></i></div>
+                <div class="count" th:utext="${countNewUsers}">179</div>
+                <h3>Người dùng mới</h3>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-gift"></i></div>
+                <div class="count" th:utext="${countProducts}">179</div>
+                <h3>Sản phẩm</h3>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-shopping-cart"></i></div>
+                <div class="count" th:utext="${countSoldProducts}">179</div>
+                <h3>Đã bán</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Tổng kết giao dịch
+                        <!--<small>Weekly progress</small>-->
+                    </h2>
+                    <div class="filter">
+                        <div id="reportrange" class="pull-right"
+                             style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                            <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="col-md-9 col-sm-12 col-xs-12" id="chart">
+                        <!--<div class="demo-container" style="height:280px">-->
+                        <!--<div id="chart_plot_02" class="demo-placeholder"></div>-->
+                        <!--</div>-->
+                        <!--<div class="tiles">-->
+                        <!--<div class="col-md-4 tile">-->
+                        <!--<span>Total Sessions</span>-->
+                        <!--<h2>231,809</h2>-->
+                        <!--<span class="sparkline11 graph" style="height: 160px;">-->
+                        <!--<canvas width="200" height="60"-->
+                        <!--style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4 tile">-->
+                        <!--<span>Total Revenue</span>-->
+                        <!--<h2>$231,809</h2>-->
+                        <!--<span class="sparkline22 graph" style="height: 160px;">-->
+                        <!--<canvas width="200" height="60"-->
+                        <!--style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                        <!--<div class="col-md-4 tile">-->
+                        <!--<span>Total Sessions</span>-->
+                        <!--<h2>231,809</h2>-->
+                        <!--<span class="sparkline11 graph" style="height: 160px;">-->
+                        <!--<canvas width="200" height="60"-->
+                        <!--style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="chart-container" style="position: relative; height: 280px;">
+                            <canvas id="myChart"></canvas>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3 col-sm-12 col-xs-12">
+                        <div>
+                            <div class="x_title">
+                                <h2>Top Seller</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                           role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Settings 1</a>
+                                            </li>
+                                            <li><a href="#">Settings 2</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <ul class="list-unstyled top_profiles scroll-view">
+                                <li th:each="seller : ${topSellers}" class="media event">
+                                    <a class="pull-left border-green profile_thumb">
+                                        <!--<i class="fa fa-user green"></i>-->
+                                        <img th:src="@{${seller.img}}" width="50">
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="#" th:utext="${seller.name}">Ms. Mary Jane</a>
+                                        <p><strong th:utext="${seller.avenue}">$2300. </strong> Agent Avarage Sales </p>
+                                        <p>
+                                            <small>12 Sales Today</small>
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<!-- /page content -->
+
+<th:block layout:fragment="footerJs">
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+    <!-- jQuery Sparklines -->
+    <script src="/admin/vendors/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+    <!-- DateJS -->
+    <script src="/admin/vendors/DateJS/build/date.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="/admin/vendors/moment/min/moment.min.js"></script>
+    <script src="/admin/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+</th:block>
+
+<th:block layout:fragment="js">
+    <script>
+
+
+        $(document).ready(function () {
+
+            var labels = [];
+            var date = new Date();
+            date.clearTime();
+            date.addDays(-6);
+            var options = {year: '2-digit', month: '2-digit', day: '2-digit'};
+            var americanDateTime = new Intl.DateTimeFormat('en-GB', options).format;
+
+            labels.push(americanDateTime(date));
+
+            $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+                var startDate = picker.startDate.format('DD-MM-YYYY');
+                var endDate = picker.endDate.format('DD-MM-YYYY');
+                console.log(startDate + " to " + endDate);
+
+                $.ajax({
+                    url: '/admin/number-of-transaction/' + startDate + '/' + endDate,
+                    dateType: 'json',
+                    success: function (result) {
+                        var data = result;
+                        var labels = [];
+
+                        var start = Date.parse(picker.startDate.format('MM-DD-YYYY'));
+                        var end = Date.parse(picker.endDate.format('MM-DD-YYYY'));
+
+                        end.addDays(1);
+
+                        while(start.getTime() !== end.getTime()) {
+                            labels.push(americanDateTime(start));
+                            start.addDays(1);
+                        }
+
+                        $('.chart-container').remove();
+                        $('#chart').append(
+                            '<div class="chart-container" style="position: relative; height: 280px;">' +
+                            '   <canvas id="myChart"></canvas>' +
+                            '</div>'
+                        );
+                        var ctx = document.getElementById('myChart').getContext('2d');
+                        window.myLine = new Chart(ctx, createConfig(labels, data));
+                        console.log(result);
+                        console.log(labels);
+                    }
+                });
+            });
+
+            for (var i = 0; i < 6; i++) {
+                labels.push(americanDateTime(date.addDays(1)));
+            }
+
+            console.log(labels);
+
+            var data = [];
+
+            $.ajax({
+                url: '/admin/number-of-transactions',
+                dateType: 'json',
+                success: function (result) {
+                    var data = result;
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    window.myLine = new Chart(ctx, createConfig(labels, data));
+                }
+            });
+
+            console.log(data);
+
+            function createConfig(labels, data) {
+                var config = {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Giao dịch',
+                            fill: false,
+                            backgroundColor: 'rgba(0,0,255,0.2)',
+                            borderColor: 'rgba(0,0,255,0.2)',
+                            data: data
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        // title: {
+                        //     display: true,
+                        //     text: 'Chart.js Line Chart'
+                        // },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        hover: {
+                            mode: 'nearest',
+                            intersect: true
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Date'
+                                }
+                            }],
+                            yAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Value'
+                                }
+                            }]
+                        }
+                    }
+                };
+                return config;
+            }
+
+        });
+
+    </script>
+</th:block>
+
+
+</body>
+</html>

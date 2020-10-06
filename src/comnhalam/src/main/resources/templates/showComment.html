@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+       <meta charset="UTF-8">
+       <title>Product</title>
+   </head>
+<body>
+
+<h1>Product List</h1>
+
+<div th:each="product:${productList}">
+   <ul>
+       <li><img src="${product.img}"><</li>
+       <li>Name: <span th:utext="${product.name}"></span></li>
+       <li>Price: <span th:utext="${product.price}"></span></li>
+       <li>Quantity: <span th:utext="${product.quantity}"></span></li>
+
+   </ul>
+   </div>
+
+
+</body>
+</html>

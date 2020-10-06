@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index/layout/frameUser}">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết hóa đơn</title>
+</head>
+<body>
+
+<div layout:fragment="breakcrumb">
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/}">Trang chủ</a></li>
+                <li class="active">Đơn hàng của tôi</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="menuUser">
+    <div id="user-menu" class="list-group">
+        <a href="/user/edit_profile" class="list-group-item list-group-item-action ">Thông tin tài khoản</a>
+        <a href="/user/order_list" class="list-group-item list-group-item-action active">Quản lý đơn hàng</a>
+        <a href="#" class="list-group-item list-group-item-action">Nhận xét sản phẩm đã mua</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/add_product" class="list-group-item list-group-item-action">Thêm sản phẩm</a>
+        <a href="/logout" class="list-group-item list-group-item-action">Đăng xuất</a>
+    </div>
+</div>
+
+<div layout:fragment="contentUser">
+    <th:block th:if="!${error}">
+        <div th:if="${errorOrder}" class="alert alert-danger alert-dismissible fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Lỗi! </strong><span th:utext="${errorOrder}">This alert box could indicate a dangerous or potentially negative action</span>
+        </div>
+        <div class="order-detail-header">
+            <h3>Chi tiết hóa đơn</h3>
+            <h5>Ngày đặt hàng: <span th:utext="${order.createOn}">19:05 10/10/2018</span></h5>
+            <div class="clearfix"></div>
+        </div>
+        <div class="order-detail-nav">
+            <a th:if="${order.state == order.STATE_RECEIVING}" th:href="@{/user/cancel_order/{id}(id=${order.id})}" class="btn btn-danger primary-bg"><i class="fa fa-close"></i>Hủy đơn hàng</a>
+            <a href="#" class="btn btn-danger primary-bg"><i class="fa fa-print"></i>In hóa đơn</a>
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <div class="order-detail-info">
+                <h4>Địa chỉ giao hàng</h4>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h5 th:utext="${order.name}">TRẦN TRỌNG PHÚC</h5>
+                        <p>Địa chỉ: <span th:utext="${order.address}">Khoa học tự nhiên</span></p>
+                        <p>Điện thoại: <span th:utext="${order.numberPhone}">123210923</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xs-6">
+            <div class="order-detail-info">
+                <h4>Hình thức giao hàng</h4>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p>Giao hành tiêu chuẩn</p>
+                        <p>Phí vận chuyển: 29000</p>
+                        <p th:utext="|Trạng Thái: ${order.getStateStr()}|">Trạng thái: </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var info = document.querySelectorAll('.order-detail-info .panel-body');
+            for (var i = 1; i < info.length; i++) {
+                info[i].style.height = info[0].clientHeight + 'px';
+            }
+        </script>
+
+        <div class="col-md-12 col-xs-12">
+            <div class="table-wrapper">
+                <table class="table table-hover table-custom">
+                    <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Số lượng</th>
+                        <th>Giảm giá</th>
+                        <th>Tạm tính</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="orderDetial : ${orderDetails}" th:class="${orderDetial.enabled} ? '' : 'product-rows'">
+                        <td>
+                            <div class="product">
+                                <img th:src="@{${orderDetial.product.img}}">
+                                <div class="info">
+                                    <h5><a th:href="@{/productDetail(id = ${orderDetial.product.id})}" th:utext="${orderDetial.product.name}">Điện thoại chính hãng</a></h5>
+                                    <h6>Cung cấp bởi <a href="#">Comnhalam.com</a></h6>
+                                    <a th:href="@{/productDetail#tab2(id = ${orderDetial.product.id})}" class="btn btn-danger primary-bg">Viết nhận xét</a>
+                                    <a th:href="@{/productDetail(id = ${orderDetial.product.id})}" class="btn btn-danger primary-bg">Mua lại</a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </td>
+                        <td th:utext="${orderDetial.product.price}">5000000</td>
+                        <td th:utext="${orderDetial.quantity}">1</td>
+                        <td>0</td>
+                        <td th:utext="${orderDetial.price}">5000000</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>Tổng tính</td>
+                        <td th:utext="${order.total}">5000000</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>Giảm giá</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>Phí vận chuyển</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td>Tổng cộng</td>
+                        <td class="total" th:utext="${order.total}">5000000</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </th:block>
+
+    <th:block th:if="${error}">
+        <div class="alert alert-danger" role="alert" th:utext="${error}">
+            A simple danger alert—check it out!
+        </div>
+        <a class="btn btn-danger primary-bg pull-right" href="/user/order_list">Quản lí đơn hàng</a>
+    </th:block>
+</div>
+
+
+</body>
+</html>

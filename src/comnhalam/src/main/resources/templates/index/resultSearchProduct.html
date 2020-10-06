@@ -1,0 +1,23 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--<meta charset="UTF-8">-->
+<!--<title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+<ul th:if="${resultSearchProducts}" class="suggest-search">
+    <li>
+        <a th:each="product : ${resultSearchProducts}" th:href="@{/productDetail(id = ${product.id})}">
+            <div class="info-suggest">
+                <img th:src="@{${product.img}}"/>
+                <div class="info-suggest-title">
+                    <h3 th:text="${product.name}"></h3>
+                    <h4 th:text="${product.price}"></h4>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </a>
+    </li>
+</ul>
+<!--</body>-->
+<!--</html>-->

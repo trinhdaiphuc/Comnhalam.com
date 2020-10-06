@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="UTF-8">
+        <title>...</title>
+    </head>
+    <body>
+        <div th:fragment="footer">
+            <footer id="footer" class="section section-grey">
+                <!-- container -->
+                <div class="container">
+                    <!-- row -->
+                    <div class="row">
+                        <!-- footer widget -->
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <div class="footer">
+                                <!-- footer logo -->
+                                <div class="footer-logo">
+                                    <a class="logo" href="#">
+                                        <img src="./img/logo.png" alt="">
+                                    </a>
+                                </div>
+                                <!-- /footer logo -->
+
+                                <p>Comnhalam mang lại những bữa ăn ngon như nhà làm, sự đa dạng về các loại thức ăn cũng như phương thức mua hàng và thanh toán nhanh chóng tiện lợi.</p>
+
+                                <!-- footer social -->
+                                <ul class="footer-social">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
+                                </ul>
+                                <!-- /footer social -->
+                            </div>
+                        </div>
+                        <!-- /footer widget -->
+
+                        <!-- footer widget -->
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <div class="footer">
+                                <h3 class="footer-header">Liên kết nhanh</h3>
+                                <ul class="list-links">
+                                    <li><a href="/user/edit_profile">Tài khoản cá nhân</a></li>
+                                    <li><a href="/products">Sản phẩm</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /footer widget -->
+
+                        <div class="clearfix visible-sm visible-xs"></div>
+
+                        <!-- footer widget -->
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <div class="footer">
+                                <h3 class="footer-header">Thông tin liên hệ</h3>
+                                <ul class="list-links">
+                                    <li><a href="/aboutus">About Us</a></li>
+                                    <li><a href="https://www.facebook.com/phuc.trantrong.9" style="color:ff0000">facebook.com/phuc.trantrong.9</a></li>
+                                    <li><a href="#">bitmap@gmail.com</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /footer widget -->
+
+                        <!-- footer subscribe -->
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <div class="footer">
+                                <h3 class="footer-header">Đăng ký nhận tin từ comnhalam</h3>
+                                <p>Bạn sẽ nhận được những khuyến mãi cũng như thông tin mới nhất từ comnhalam</p>
+                                <form>
+                                    <div class="form-group">
+                                        <input class="input" placeholder="Enter Email Address">
+                                    </div>
+                                    <button class="primary-btn">Join Newslatter</button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /footer subscribe -->
+                    </div>
+                    <!-- /row -->
+                    <hr>
+                    <!-- row -->
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 text-center">
+                            <!-- footer copyright -->
+                            <div class="footer-copyright">
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> Design and Developed <i class="fa fa-heart-o" aria-hidden="true"></i> by BITMAP team
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </div>
+                            <!-- /footer copyright -->
+                        </div>
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /container -->
+            </footer>
+            <!-- /FOOTER -->
+
+            <!-- jQuery Plugins -->
+            <script src="/index/js/jquery.min.js"></script>
+            <script src="/index/js/bootstrap.min.js"></script>
+            <script src="/index/js/slick.min.js"></script>
+            <script src="/index/js/nouislider.min.js"></script>
+            <script src="/index/js/jquery.zoom.min.js"></script>
+            <script src="/index/js/pnotify.custom.min.js"></script>
+            <script src="/index/js/main.js"></script>
+            <script src="/index/js/app.js"></script>
+            <script src="/index/js/cart.js"></script>
+            <div layout:fragment="footerJs"></div>
+        </div>
+    </body>
+</html>

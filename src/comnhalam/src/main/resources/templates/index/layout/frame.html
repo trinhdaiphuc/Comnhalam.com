@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Cơm nhà làm</title>
+
+        <!-- Google font -->
+        <link href="https://fonts.googleapis.com/css?family=Niramit" rel="stylesheet">
+
+        <!-- Bootstrap -->
+        <link type="text/css" rel="stylesheet" href="/index/css/bootstrap.min.css"/>
+
+        <!-- Slick -->
+        <link type="text/css" rel="stylesheet" href="/index/css/slick.css"/>
+        <link type="text/css" rel="stylesheet" href="/index/css/slick-theme.css"/>
+
+        <!-- nouislider -->
+        <link type="text/css" rel="stylesheet" href="/index/css/nouislider.min.css"/>
+
+        <!-- Font Awesome Icon -->
+        <link rel="stylesheet" href="/index/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="/index/css/pnotify.custom.min.css">
+
+        <!-- Custom stlylesheet -->
+        <link type="text/css" rel="stylesheet" href="/index/css/style.css"/>
+
+        <th:block layout:fragment="headerCss">
+
+        </th:block>
+
+        <link type="text/css" rel="stylesheet" href="/index/css/custom.css"/>
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    </head>
+
+    <body>
+        <!-- HEADER -->
+        <div th:replace="index/layout/header :: header"></div>
+        <!-- /HEADER -->
+
+        <!-- NAVIGATION -->
+        <div id="navigation">
+            <!-- container -->
+            <div class="container">
+                <div id="responsive-nav">
+                    <!-- category nav -->
+                    <div class="category-nav show-on-click">
+                        <span class="category-header">Thực đơn
+                            <i class="fa fa-list"></i>
+                        </span>
+                        <ul class="category-list">
+
+                        </ul>
+                    </div>
+                    <!-- /category nav -->
+
+                    <!-- menu nav -->
+                    <div class="menu-nav">
+                        <span class="menu-header">Menu
+                            <i class="fa fa-bars"></i>
+                        </span>
+                        <ul class="menu-list">
+                            <li>
+                                <a href="/">Trang chủ</a>
+                            </li>
+                            <li>
+                                <a href="/products">Danh sách món ăn</a>
+                            </li>
+                            <li class="dropdown mega-dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown"
+                                   aria-expanded="true">Món ăn
+                                    <i
+                                            class="fa fa-caret-down"></i>
+                                </a>
+                                <div class="custom-menu">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul class="list-links" id="list-links">
+
+                                            </ul>
+                                            <hr class="hidden-md hidden-lg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="/show_sellers">Đầu bếp</a>
+                            </li>
+                            <li>
+                                <a href="/aboutus">Về chúng tôi</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- menu nav -->
+                </div>
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /NAVIGATION -->
+
+        <!--&lt;!&ndash; section &ndash;&gt;-->
+        <!--<div class="section">-->
+        <!--&lt;!&ndash; container &ndash;&gt;-->
+        <!--<div class="container">-->
+        <!--&lt;!&ndash; row &ndash;&gt;-->
+        <!--<div class="row">-->
+        <!--</div>-->
+        <!--&lt;!&ndash; /row &ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; /container &ndash;&gt;-->
+        <!--</div>-->
+        <!--&lt;!&ndash; /section &ndash;&gt;-->
+
+        <div layout:fragment="content">
+
+        </div>
+
+        <!-- FOOTER -->
+        <div th:replace="index/layout/footer :: footer">
+
+        </div>
+
+    </body>
+
+</html>

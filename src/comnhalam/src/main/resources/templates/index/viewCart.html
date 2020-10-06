@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index/layout/frame}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Xem giỏ hàng</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/}">Trang chủ</a></li>
+                <li class="active">Xem giỏ hàng</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+
+    <!-- section -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <form id="view-cart-form" class="clearfix">
+                    <div class="col-md-12">
+                        <div class="order-summary clearfix">
+                            <div class="section-title">
+                                <h3 class="title">Đơn hàng</h3>
+                            </div>
+                            <table class="shopping-cart-table table">
+                                <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th></th>
+                                    <th class="text-center">Giá</th>
+                                    <th class="text-center">Số lượng</th>
+                                    <th class="text-center">Tổng tiền</th>
+                                    <th class="text-right"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${session.carts}" th:each="productCart : ${session.carts}"
+                                    th:id="${productCart.id}">
+                                    <td class="thumb"><img th:src="@{${productCart.img}}" alt=""></td>
+                                    <td class="details">
+                                        <a th:href="@{/productDetail(id = ${productCart.id})}" th:utext="${productCart.name}">Product Name Goes Here</a>
+                                        <!--<ul>-->
+                                        <!--<li><span>Size: XL</span></li>-->
+                                        <!--<li><span>Color: Camelot</span></li>-->
+                                        <!--</ul>-->
+                                    </td>
+                                    <td class="price text-center"><strong th:text="${productCart.price}">$32.50</strong><br>
+                                        <!--<del class="font-weak">-->
+                                        <!--<small>$40.00</small>-->
+                                        <!--</del>-->
+                                    </td>
+                                    <td class="qty text-center"><input class="input" type="number"
+                                                                       th:value="${productCart.quantity}"></td>
+                                    <td class="total text-center"><strong class="primary-color"
+                                                                          th:text="${productCart.price * productCart.quantity}">$32.50</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <button class="btn-remove-product main-btn icon-btn"><i class="fa fa-close"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>Tổng tạm tính</th>
+                                    <th colspan="2" class="sub-total"
+                                        th:text="${session.totalCarts} == null ? 0 : ${session.totalCarts.price}">$97.50
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>Phí vận chuyển</th>
+                                    <td colspan="2">Free Shipping</td>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>Tổng tiền</th>
+                                    <th colspan="2" class="total"
+                                        th:text="${session.totalCarts} == null ? 0 : ${session.totalCarts.price}">$97.50
+                                    </th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <div class="pull-right">
+                                <button class="main-btn">Tiếp tục mua hàng</button>
+                                <button type="submit" class="primary-btn">Thông tin giao hàng</button>
+                                <div class="my-alert">
+                                    <div th:if="${error}" class="alert alert-danger alert-dismissible" role="alert">
+                                        <strong>Lỗi! </strong> <span th:utext="${error}"></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!-- /row -->
+
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+</div>
+
+</body>
+
+</html>

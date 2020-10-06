@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>BÁO CÁO DOANH THU THEO TUẦN </title>
+    <style>
+        h1 {
+            text-align: center;
+            color: #FF0000;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        th {
+            background-color: #000866;
+            color: white;
+        }
+
+        body {
+            -webkit-print-color-adjust: exact !important;
+        }
+    </style>
+</head>
+<body class="nav-md">
+<h1>BÁO CÁO DOANH THU</h1>
+<h1 th:utext="${from} + ' - ' + ${to}"></h1>
+<table>
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Ngày</th>
+        <th>Số lượng đơn hàng</th>
+        <th>Số tiền bán được</th>
+        <th>Phần trăm lấy của seller</th>
+        <th>Tổng số tiền thu được</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="element : ${reportform}">
+        <td th:utext="${element.id}">1</a></td>
+        <td th:utext="${element.date}">Tiger</td>
+        <td th:utext="${element.number_order}">Nixon</td>
+        <td th:utext="${element.money}">tiger@gmail.com</td>
+        <td th:utext="${element.percent}"></td>
+        <td th:utext="${element.total}"></td>
+    </tr>
+    </tbody>
+</table>
+<script type="text/javascript">
+    function printreport() {
+        window.print();
+        window.close();
+    }
+    printreport();
+</script>
+
+
+</body>
+</html>

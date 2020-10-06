@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login V2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/login/images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/login/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/login/fonts/iconic/css/material-design-iconic-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/login/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/login/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/login/vendor/animsition/css/animsition.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/login/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/login/vendor/daterangepicker/daterangepicker.css">
+
+    <link rel="stylesheet" href="/index/css/pnotify.custom.min.css">
+
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/login/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/login/css/main.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+
+<div class="limiter">
+
+    <div class="container-login100">
+        <div class="bg-login"></div>
+        <div class="wrap-login100">
+            <form class="login100-form validate-form" th:action="@{/login}" method="post">
+					<span class="login100-form-title p-b-26">
+						Welcome
+					</span>
+                <div class="logo">
+                    <img src="/index/img/logo-2.png" width="200px">
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
+                    <input class="input100" type="text" name="email">
+                    <span class="focus-input100" data-placeholder="Email"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter password">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+                    <input class="input100" type="password" name="password">
+                    <span class="focus-input100" data-placeholder="Password"></span>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button class="login100-form-btn">
+                            Login
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label style="float: left; padding-top: 10px"><input type="checkbox" name="remember-me">
+                        Remember
+                    </label>
+                    <a th:href="@{/reset_password}"
+                       style="float:right; padding-top: 10px "><span>Quên mật khẩu?</span></a>
+                </div>
+
+                <div class="text-center p-t-115">
+						<span class="txt1">
+							Don’t have an account?
+						</span>
+
+                    <a class="txt2" th:href="@{/registration}">
+                        Sign Up
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+<script src="/login/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="/login/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+<script src="/login/vendor/bootstrap/js/popper.js"></script>
+<script src="/login/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="/login/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="/login/vendor/daterangepicker/moment.min.js"></script>
+<script src="/login/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+<script src="/login/vendor/countdowntime/countdowntime.js"></script>
+
+<script src="/index/js/pnotify.custom.min.js"></script>
+<!--===============================================================================================-->
+<script src="/login/js/main.js"></script>
+
+<script>
+    $(document).ready(function () {
+        PNotify.prototype.options.styling = "fontawesome";
+        function getParamUrl(sParam) {
+            const search = window.location.search.substring(1);
+            const urlVars = search.split("&");
+            for (let i = 0; i < urlVars.length; i++) {
+                const param = urlVars[i].split("=");
+                if (param[0] === sParam) {
+                    return param[1];
+                }
+            }
+            return null;
+        }
+
+        const message = getParamUrl("message");
+
+        if (message !== null) {
+            if (message === "block_ip") {
+                new PNotify({
+                    title: 'Ôi không!',
+                    text: 'Bạn đã đăng nhập sai quá nhiều lần, ip của bạn đã bị khóa',
+                    type: 'error'
+                });
+            }
+
+            if (message === "user_not_found") {
+                new PNotify({
+                    title: 'Ôi không!',
+                    text: 'Bạn sai tên đăng nhập hoặc mật khẩu',
+                    type: 'error'
+                });
+            }
+
+            if (message === "user_is_blocked") {
+                new PNotify({
+                    title: 'Ôi không!',
+                    text: 'Tài khoản của bạn đã bị khóa',
+                    type: 'error'
+                });
+            }
+
+            if (message === "logout") {
+                new PNotify({
+                    title: 'Thông báo!',
+                    text: 'Bạn vừa đăng xuất',
+                    type: 'success'
+                });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

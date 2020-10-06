@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+    <div class="header-btns-icon">
+        <i class="fa fa-shopping-cart"></i>
+        <span class="qty" th:text="${session.totalCarts == null} ? '0' : ${session.totalCarts.quantity}">3</span>
+    </div>
+    <strong class="text-uppercase">Giỏ hàng:</strong>
+    <br>
+    <span th:text="${session.totalCarts == null} ? '0' : ${session.totalCarts.price}">35.20$</span>
+</a>
+<div class="custom-menu">
+    <div id="shopping-cart">
+        <div class="shopping-cart-list">
+            <div class="product product-widget" th:each="productCart : ${session.carts}">
+                <div class="product-thumb">
+                    <img th:src="@{${productCart.img}}" alt="">
+                </div>
+                <div class="product-body">
+                    <h3 class="product-price">
+                        <span th:text="${productCart.price}"></span>
+                        <span class="qty" th:text="'x' + ${productCart.quantity}">x3</span>
+                    </h3>
+                    <h2 class="product-name">
+                        <a th:href="@{/productDetail(id = ${productCart.id})}" th:utext="${productCart.name}"></a>
+                    </h2>
+                </div>
+                <button th:attr="product_id=${productCart.id}" class="cancel-btn" th:onclick="'click_trash(' + ${productCart.id} + ')'" ><i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+        <div class="shopping-cart-btns">
+            <a th:href="@{/view_cart}" class="main-btn">Xem giỏ hàng</a>
+            <a th:href="@{/checkout}" class="primary-btn">Thanh toán <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

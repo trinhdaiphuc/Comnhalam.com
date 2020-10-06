@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recaptcha</title>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <form th:action="@{/testCaptcha}" method="post" enctype="utf8">
+        <div class="g-recaptcha col-sm-5"
+             data-sitekey="6LdEgHgUAAAAAOqo8fJkO3rORNtdt2dWn9Qeh1-Q">
+        </div>
+        <span id="captchaError" class="alert alert-danger col-sm-4"
+              style="display:none">
+        </span>
+        <button type="submit">Enter</button>
+    </form>
+
+    <!--<script>-->
+        <!--grecaptcha.ready(function() {-->
+            <!--grecaptcha.execute('6LcbfXgUAAAAALAsKVwgiwydvhKmPs8eM5_Rzx-S', {action: '/testCaptcha'})-->
+                <!--.then(function(token) {-->
+<!--// Verify the token on the server.-->
+                <!--});-->
+        <!--});-->
+    <!--</script>-->
+
+</body>
+</html>

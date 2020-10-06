@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index/layout/frame}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/view_cart">Xem giỏ hàng</a></li>
+                <li><a href="/shipment_details">Thông tin giao hàng</a></li>
+                <li class="active">Thanh toán</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+
+    <!-- section -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-body my-panel-product">
+                            <div class="order">
+                                <h4>Thông tin giao hàng</h4>
+                                <a href="/shipment_details"><i class="fa fa-edit"></i></a>
+                                <div class="clearfix"></div>
+                            </div>
+                            <hr>
+                            <h5 th:utext="${session.shippingForm.firstName + session.shippingForm.lastName}">Full Name</h5>
+                            <p th:utext="|Địa chỉ: ${session.shippingForm.address}|">Address: 51/29 Phạm Thế Hiển, Phường 01, Quận 8, Hồ Chí Minh</p>
+                            <p th:text="|Điện thoại: ${session.shippingForm.numberPhone}|">Tel: 0799873850</p>
+                            <p th:utext="|Email: ${session.shippingForm.email}|">Email: tranphucbol@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body my-panel-product">
+                            <div class="order">
+                                <h4 th:utext="|Đơn hàng (${session.carts.size()} sản phẩm)|">Order (3 Product)</h4>
+                                <a href="/view_cart"><i class="fa fa-edit"></i></a>
+                                <div class="clearfix"></div>
+                            </div>
+                            <hr>
+                            <!-- item -->
+                            <div th:each="productCart : ${session.carts}" class="item" th:attr="id=${productCart.id}">
+                                <div class="title">
+                                    <strong th:text="|x${productCart.quantity}|">x1</strong>
+                                    <a th:href="@{/productDetails/(id = ${productCart.id})}" th:utext="${productCart.name}">Product Name</a>
+                                    <span class="seller-by">
+                                         Cung cấp bởi <strong>Comnhalam.com</strong>
+                                    </span>
+                                </div>
+                                <div class="price text-right" th:text="${productCart.price}">
+                                    2000
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <!-- end item -->
+
+                            <div class="list-info-price">
+                                <b>Tổng tạm tính</b>
+                                <span>20000</span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="list-info-price">
+                                <b>Phí vận chuyển</b>
+                                <span>0</span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="list-info-price">
+                                <b>Giảm giá</b>
+                                <span>0</span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="total">
+                                <b>Tổng thành tiền</b>
+                                <span>20000</span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="pull-right">
+                        <a href="/checkout/finish" class="primary-btn">Hoàn thành</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+</div>
+
+</body>
+</html>

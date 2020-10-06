@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index/layout/frameUser}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Products</title>
+
+</head>
+
+<body>
+
+<div layout:fragment="breakcrumb">
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/}">Trang chủ</a></li>
+                <li class="active">Đơn hàng của tôi</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="menuUser">
+    <div id="user-menu" class="list-group">
+        <a href="/user/edit_profile" class="list-group-item list-group-item-action ">Thông tin tài
+            khoản</a>
+        <a href="/user/order_list" class="list-group-item list-group-item-action ">Quản lý đơn
+            hàng</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/products"
+           class="list-group-item list-group-item-action active">Xem sản phẩm</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/add_product"
+           class="list-group-item list-group-item-action">Thêm sản phẩm</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/exportReport"
+           class="list-group-item list-group-item-action">Xuất báo cáo</a>
+        <a href="/logout" class="list-group-item list-group-item-action">Đăng xuất</a>
+    </div>
+</div>
+
+<div layout:fragment="contentUser">
+    <!-- store top filter -->
+    <div class="store-filter clearfix">
+        <div class="pull-left">
+            <div class="row-filter">
+                <a href="#"><i class="fa fa-th-large"></i></a>
+                <a href="#" class="active"><i class="fa fa-bars"></i></a>
+            </div>
+            <div class="sort-filter">
+                <span class="text-uppercase">Sort By:</span>
+                <select class="input">
+                    <option value="0">Position</option>
+                    <option value="0">Rating</option>
+                </select>
+                <a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
+            </div>
+        </div>
+
+        <div class="pull-right">
+            <div class="page-filter">
+                <span class="text-uppercase">Show:</span>
+                <select class="input" id="show" onChange="document.location = this.value" value="GO">
+                    <option th:label="${show}" disabled selected value></option>
+                    <option th:value="@{${baseUrl} + 'page=' + ${currentIndex} + '&pageSize=' + ${10}}">
+                        10
+                    </option>
+                    <option th:value="@{${baseUrl} + 'page=' + ${currentIndex} + '&pageSize=' + ${20}}">
+                        20
+                    </option>
+                    <option th:value="@{${baseUrl} + 'page=' + ${currentIndex} + '&pageSize=' + ${30}}">
+                        30
+                    </option>
+                </select>
+            </div>
+            <ul class="store-pages">
+                <li><span class="text-uppercase">Page:</span></li>
+                <li
+                        th:class="${currentIndex == 1}? 'page-item disabled' :'page-item'">
+                    <a class="page-link"
+                       th:href="@{${baseUrl} + 'page=' + ${begin} + '&pageSize=' + ${show}}">First</a>
+                </li>
+                <li
+                        th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' ">
+                    <a class="page-link" aria-label="Previous"
+                       th:if="${currentIndex - 1 > 0}"
+                       th:href="@{${baseUrl} + 'page=' + ${currentIndex - 1} + '&pageSize=' + ${show}}"
+                       title='Go to previous page'><span aria-hidden="true">«</span>
+                        <span class="sr-only">Previous</span></a>
+                </li>
+                <li th:each="item : ${#numbers.sequence(findex, lindex)}"
+                    class="page-item">
+                    <a th:class="${item == currentIndex} ? 'page-link active-link' : 'page-link'"
+                       th:href="@{${baseUrl} + 'page=' + ${item} + '&pageSize=' + ${show}}"> <span
+                            th:text='${item}'>1</span>
+                    </a>
+                </li>
+                <li
+                        th:class="${currentIndex == total}? 'page-item disabled': 'page-item'">
+                    <a class="page-link" aria-label="Next"
+                       th:if="${currentIndex + 1 <= total}"
+                       th:href="@{${baseUrl} + 'page=' + ${currentIndex + 1} + '&pageSize=' + ${show}}"
+                       title='Go to next page'><span
+                            aria-hidden="true">»</span> <span class="sr-only">Next</span></a>
+                </li>
+                <li
+                        th:class="${currentIndex == total}? 'page-item disabled':'page-item'">
+                    <a class="page-link"
+                       th:href="@{${baseUrl} + 'page=' + ${total} + '&pageSize=' + ${show}}">Last</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /store top filter -->
+
+    <!-- STORE -->
+    <div id="store">
+        <!-- row -->
+        <div class="row">
+            <th:block th:if="${#lists.isEmpty(products_page.pageList)}">
+                <h3>No Products</h3>
+            </th:block>
+
+            <th:block th:unless="${#lists.isEmpty(products_page.pageList)}">
+                <tr th:each="contact,iterStat : ${products_page.pageList}">
+                    <div class="col-md-4 col-sm-6 col-xs-6" th:id="${contact.id}">
+                        <div class="product product-single">
+                            <div class="product-thumb">
+                                <a th:href="@{/productDetail/(id = ${contact.id})}">
+                                    <button class="main-btn quick-view">
+                                        <i class="fa fa-search-plus"></i>
+                                        Xem món ăn
+                                    </button>
+                                </a>
+                                <img th:src="@{${contact.img}}" alt="">
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-price">
+                                    <td th:text="${contact.price}"></td>
+                                </h3>
+                                <div class="product-rating">
+                                    <i th:if="${contact.getStar()} > 0">
+                                        <i th:each="i:${#numbers.sequence(1,contact.getStar())}"
+                                           class="fa fa-star"></i>
+                                    </i>
+                                    <i th:if="${contact.getNonStar()} > 0">
+                                        <i th:each="j:${#numbers.sequence(1,contact.getNonStar())}"
+                                           class="fa fa-star-o empty"></i>
+                                    </i>
+                                </div>
+                                <h2 class="product-name"><a href="#">
+                                    <td th:text="${contact.name}"></td>
+                                </a></h2>
+                                <div class="product-btns">
+                                    <button class="main-btn icon-btn" th:attr="product_id=${contact.id}"><i
+                                            class="fa fa-trash"></i>
+                                    </button>
+                                    <a th:href="@{~/seller/modify_product/{id} (id = ${contact.id})}"
+                                       class="primary-btn add-to-cart-2"><i
+                                            class="fa fa-edit"></i> Sửa sản phẩm
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </tr>
+
+            </th:block>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /STORE -->
+
+    <!-- store bottom filter -->
+    <div class="store-filter clearfix">
+        <div class="pull-left">
+            <div class="row-filter">
+                <a href="#"><i class="fa fa-th-large"></i></a>
+                <a href="#" class="active"><i class="fa fa-bars"></i></a>
+            </div>
+            <div class="sort-filter">
+                <span class="text-uppercase">Sort By:</span>
+                <select class="input">
+                    <option value="0">Position</option>
+                    <option value="0">Rating</option>
+                </select>
+                <a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
+            </div>
+        </div>
+
+        <div class="pull-right">
+            <div class="page-filter">
+                <span class="text-uppercase">Show:</span>
+                <select class="input" id="show_s" onChange="document.location = this.value" value="GO">
+                    <option th:label="${show}" disabled selected value></option>
+                    <option th:value="@{${baseUrl} + 'page=' + ${currentIndex} + '&pageSize=' + ${10}}">
+                        10
+                    </option>
+                    <option th:value="@{${baseUrl} + 'page=' + ${currentIndex} + '&pageSize=' + ${20}}">
+                        20
+                    </option>
+                    <option th:value="@{${baseUrl} + 'page=' + ${currentIndex} + '&pageSize=' + ${30}}">
+                        30
+                    </option>
+                </select>
+            </div>
+            <ul class="store-pages">
+                <li><span class="text-uppercase">Page:</span></li>
+                <li
+                        th:class="${currentIndex == 1}? 'page-item disabled' :'page-item'">
+                    <a class="page-link"
+                       th:href="@{${baseUrl} + 'page=' + ${begin} + '&pageSize=' + ${show}}">First</a>
+                </li>
+                <li
+                        th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' ">
+                    <a class="page-link" aria-label="Previous"
+                       th:if="${currentIndex - 1 > 0}"
+                       th:href="@{${baseUrl} + 'page=' + ${currentIndex - 1} + '&pageSize=' + ${show}}"
+                       title='Go to previous page'><span aria-hidden="true">«</span>
+                        <span class="sr-only">Previous</span></a>
+                </li>
+                <li th:each="item : ${#numbers.sequence(findex, lindex)}"
+                    th:class="${item == currentIndex ? 'page-item active' :'page-item' }">
+                    <a class="page-link"
+                       th:href="@{${baseUrl} + 'page=' + ${item} + '&pageSize=' + ${show}}"> <span
+                            th:text='${item}'>1</span>
+                    </a>
+                </li>
+                <li
+                        th:class="${currentIndex == total}? 'page-item disabled': 'page-item'">
+                    <a class="page-link" aria-label="Next"
+                       th:if="${currentIndex + 1 <= total}"
+                       th:href="@{${baseUrl} + 'page=' + ${currentIndex + 1} + '&pageSize=' + ${show}}"
+                       title='Go to next page'><span
+                            aria-hidden="true">»</span> <span class="sr-only">Next</span></a>
+                </li>
+                <li
+                        th:class="${currentIndex == total}? 'page-item disabled':'page-item'">
+                    <a class="page-link"
+                       th:href="@{${baseUrl} + 'page=' + ${total} + '&pageSize=' + ${show}}">Last</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /store bottom filter -->
+</div>
+
+<th:block layout:fragment="footerJs">
+    <script>
+        $('.icon-btn').click(function (e) {
+            var productId = $(this).attr('product_id');
+            $.ajax({
+                url: "/seller/dis-product/" + productId,
+                dataType: 'text',
+                success: function (result) {
+                    console.log(result);
+                    if (result === 'success') {
+                        $('#' + productId).remove();
+                    }
+                }
+            });
+        });
+    </script>
+</th:block>
+
+</body>
+
+</html>

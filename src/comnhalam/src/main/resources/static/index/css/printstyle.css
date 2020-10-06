@@ -1,0 +1,11 @@
+@media print {
+    *{
+        background: transparent !important;
+        color: #FF0000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    .col-md-12{
+        color: #FF0000;
+    }
+}

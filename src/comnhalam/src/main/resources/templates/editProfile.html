@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index/layout/frame}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Thông tin tài khoản</title>
+
+</head>
+
+<body>
+
+<!--FORM-->
+
+<div layout:fragment="content">
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/}">Home</a></li>
+                <li class="active">Thông tin tài khoản</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <h1 style="margin-top:10px">Thông tin tài khoản</h1>
+        <hr>
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="avatar">
+                        <img th:src="@{${image}}" class="avatar img-circle" alt="avatar"
+                             style="width:100px; height:100px">
+                    </div>
+                    <div class="progress my-progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                             role="progressbar"
+                             aria-valuenow="75"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                             style="width:0%"></div>
+                    </div>
+                    <form method="post" th:action="@{/edit_profile/uploadImage/}" th:object="${uploadImageForm}"
+                          enctype="multipart/form-data" id="formUploadFile">
+                        <input type="hidden" th:field="*{id}">
+                        <div class="upload-btn-wrapper">
+                            <button class="btn btn-danger primary-bg">Upload a file</button>
+                            <input type="file" th:field="*{multipartFile}" accept="image/*">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- edit form column -->
+            <div class="col-md-9 personal-info">
+                <!--ghi chu -->
+                <!-- <div class="alert alert-info alert-dismissable">
+                  <a class="panel-close close" data-dismiss="alert">×</a>
+                  <i class="fa fa-coffee"></i>
+                  This is an <strong>.alert</strong>. Use this to show important messages to the user.
+                </div> -->
+                <h3>Thông tin cá nhân</h3>
+                <p style="color:red" th:if="${message}" th:text="${message}"></p>
+                <form class="form-horizontal" th:action="@{/edit_profile/updateInfo/}" th:object="${editProfileForm}"
+                      method="post">
+                    <input type="hidden" th:field="*{id}">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Email:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" disabled th:field="*{email}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Họ:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" th:field="*{firstName}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Tên:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" th:field="*{lastName}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Địa chỉ:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" th:field="*{address}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Số điện thoại:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" th:field="*{numberPhone}">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                      <label class="col-lg-3 control-label">Company:</label>
+                      <div class="col-lg-8">
+                        <input class="form-control" type="text" value="">
+                      </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                      <label class="col-lg-3 control-label">Email:</label>
+                      <div class="col-lg-8">
+                        <input class="form-control" type="text" value="janesemail@gmail.com">
+                      </div>
+                    </div> -->
+
+                    <!--user name-->
+                    <!-- <div class="form-group">
+                      <label class="col-md-3 control-label">Username:</label>
+                      <div class="col-md-8">
+                        <input class="form-control" type="text" value="janeuser">
+                      </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                      <label class="col-md-3 control-label">Password:</label>
+                      <div class="col-md-8">
+                        <input class="form-control" type="password" value="">
+                      </div>
+                    </div>
+                  -->
+                    <!--<div class="form-group">-->
+                    <!--<label class="col-md-3 control-label">Gender:</label>-->
+                    <!--<div class="col-md-8">-->
+                    <!--<input type="radio" name="gender" value="">Nam-->
+                    <!--<input type="radio" name="gender" value="">Nữ-->
+                    <!--</div>-->
+                    <!--</div> -->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-8">
+                            <a class="btn btn-danger primary-bg" href="/reset_password">Đổi mật khẩu</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-8">
+                            <input type="submit" class="btn btn-danger primary-bg" value="Lưu thay đổi">
+                            <span></span>
+                            <input type="reset" class="btn btn-danger primary-bg" value="Hủy">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<!--/FORM-->
+
+<div layout:fragment="footerJs">
+    <script src="/index/js/jquery.form.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('.progress').hide();
+
+            function resetProgressBar() {
+                $('.progress').show();
+                $('.progress-bar').width(0 + '%');
+                $('.progress-bar').addClass('active');
+            }
+
+            $('#formUploadFile input:file').change(function (e) {
+                e.preventDefault();
+                $('#formUploadFile').ajaxSubmit({
+                    beforeSubmit: function () {
+                        resetProgressBar();
+                        $('.avatar').append(
+                            '<div class="mask-avatar"></div>' +
+                            '<div class="spinner-1"></div>'
+                        );
+                    },
+                    uploadProgress: function (event, position, total, percentComplete) {
+                        $('.progress-bar').width(percentComplete + '%');
+                    },
+                    success: function (responseText, statusText, xhr) {
+                        $('.progress-bar').removeClass('active');
+                        $('.progress').hide();
+                        $('.avatar .mask-avatar').remove();
+                        $('.avatar .spinner-1').remove();
+                        $('.avatar img').attr('src', responseText);
+                    },
+                    error: function (responseText, statusText, xhr) {
+                        resetProgressBar();
+                        console.log(responseText);
+                        console.log(statusText);
+                        console.log(xhr);
+                    },
+                    type: 'POST',
+                    clearForm: true,
+                    resetForm: true
+                });
+            });
+        });
+    </script>
+</div>
+
+</body>
+
+</html>

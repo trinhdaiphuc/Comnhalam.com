@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index/layout/frameUser}">
+<head>
+    <meta charset="UTF-8">
+    <title>Xuất báo cáo</title>
+    <th:block layout:fragment="headerCss">
+        <link rel="stylesheet" href="/index/css/bootstrap-datepicker.min.css">
+    </th:block>
+</head>
+<body>
+
+<div layout:fragment="breakcrumb">
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/}">Trang chủ</a></li>
+                <li class="active">Xuất báo cáo</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="menuUser">
+    <div id="user-menu" class="list-group">
+        <a href="/user/edit_profile" class="list-group-item list-group-item-action ">Thông tin tài khoản</a>
+        <a href="/user/order_list" class="list-group-item list-group-item-action">Quản lý đơn hàng</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/products" class="list-group-item list-group-item-action">Xem sản phẩm</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/add_product" class="list-group-item list-group-item-action">Thêm sản phẩm</a>
+        <a sec:authorize="hasRole('SELLER')" href="/seller/exportReport" class="list-group-item list-group-item-action active">Xuất báo cáo</a>
+        <a href="/logout" class="list-group-item list-group-item-action">Đăng xuất</a>
+    </div>
+</div>
+
+<div layout:fragment="contentUser">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h4>Xuất báo cáo</h4>
+            <hr>
+            <h5>Chọn ngày xuất báo cáo: </h5>
+            <div class="input-daterange input-group" id="datepicker">
+                <input type="text" class="input-sm form-control" name="start" required />
+                <span class="input-group-addon">đến</span>
+                <input type="text" class="input-sm form-control" name="end" required />
+            </div>
+            <h5 style="margin: 10px 0">Tiêu đề báo cáo: </h5>
+            <input type="text" class="input-sm form-control" name="title" required>
+            <div class="pull-right" style="margin: 10px 0">
+                <button class="btn btn-danger primary-bg" id="btn-print"><i class="fa fa-print"></i> Xuất báo cáo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div layout:fragment="footerJs">
+    <script src="/index/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#datepicker').datepicker({
+                format: 'dd-mm-yyyy'
+            });
+
+            $('#btn-print').click(function (e) {
+                const start = $('input[name="start"]').val();
+                const end = $('input[name="end"]').val();
+                const title = $('input[name="title"]').val();
+                if(start !== "" && end !== "" && title !== "") {
+                    const link = encodeURI(`/report/${start}/${end}/${title}`);
+                    window.location.href = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2)) + link;
+                    console.log(link);
+                }
+            });
+        });
+
+    </script>
+</div>
+
+
+</body>
+</html>
